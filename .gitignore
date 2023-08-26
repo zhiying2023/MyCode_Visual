@@ -1,1 +1,5 @@
-data/flower
+data/flower_photos
+swin_transformer/weights
+swin_transformer/__pycache__
+swin_transformer/swin_tiny_patch4_window7_224.pth
+runs
