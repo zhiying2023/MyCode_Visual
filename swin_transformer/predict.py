@@ -42,7 +42,7 @@ def main():
     # create model
     model = create_model(num_classes=5).to(device)
     # load model weights
-    model_weight_path = "swin_transformer/weights/model-9.pth"
+    model_weight_path = "swin_transformer/weights/model-2.pth"
     model.load_state_dict(torch.load(model_weight_path, map_location=device))
     model.eval()
     with torch.no_grad():

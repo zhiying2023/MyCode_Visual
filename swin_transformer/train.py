@@ -89,7 +89,8 @@ def main(args):
         assert os.path.exists(args.weights), "weights file: '{}' not exist.".format(
             args.weights
         )
-        weights_dict = torch.load(args.weights, map_location=device)["model"]
+        # weights_dict = torch.load(args.weights, map_location=device)["model"]
+        weights_dict = torch.load(args.weights, map_location=device)
         # 删除有关分类类别的权重
         for k in list(weights_dict.keys()):
             if "head" in k:
@@ -136,8 +137,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--num_classes", type=int, default=3)
-    parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--num_classes", type=int, default=5)
+    parser.add_argument("--epochs", type=int, default=1)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--lr", type=float, default=0.0001)
 
@@ -149,7 +150,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--weights",
         type=str,
-        default="swin_transformer/swin_tiny_patch4_window7_224.pth",
+        default="swin_transformer/weights/model-1.pth",
+        # default="swin_transformer/swin_tiny_patch4_window7_224.pth",
         help="initial weights path",
     )
     # 是否冻结权重
