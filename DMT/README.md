@@ -49,5 +49,5 @@ Download the dataset from [Baidu Driver](https://pan.baidu.com/s/192MnRSgXSDXb0l
 4. Run `python ./evaluation/eval_from_imgs.py` to evaluate the predicted results on three datasets and the evaluation scores will be written in `./evaluation/result`.
 
 
-#2025.3.31
+## 2025.3.31
 将CoSODNet.py，GroupAttention.py，CoFormer_Decoder.py文件中的detectron2库函数换成nn，并写简单的CoSODNet.py的mian运行函数
