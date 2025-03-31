@@ -296,7 +296,7 @@ class Parse(nn.Module):
         co_tgt, bg_tgt = group_tgt.split(1, dim=0)
         co_tokens, _ = group_tokens.split(1, dim=0)
 
-        co_tgt = co_tgt.transpose(0, 1)
+        co_tgt = co_tgt.transpose(0, 1) #[1, 2, 256]->[2, 1, 256]
         co_tokens = co_tokens.transpose(0, 1)
         com_tgt = self.trans_gr2com(
             tgt=com_tgt,
@@ -548,19 +548,19 @@ class CoFormer_Decoder(nn.Module):
         self.gr_sal_preds = Sal_Pred_with_Tok(hidden_dim)
         # self.com_sal_pred = Sal_Pred_with_Tok(hidden_dim)
 
-    def forward(self, features: Dict):
+    def forward(self, features: Dict):  #[2, 64, 256, 256] [2, 256, 64, 64] [2, 512, 32, 32] [2, 512, 16, 16]
         x = features[self.fea_names[-1]]
-        x = self.input_proj(x)
+        x = self.input_proj(x)  #[2, 256, 16, 16]
 
         fea_pos = self.pe_layer(x)
         group_pos = self.group_pos.weight
         com_pos = self.com_pos.weight
 
         b, c, h, w = x.shape
-        x = x.flatten(2).permute(2, 0, 1)
+        x = x.flatten(2).permute(2, 0, 1)   #[2, 512, 16, 16]->[256, 2, 256]
         fea_pos = fea_pos.flatten(2).permute(2, 0, 1)
-        group_pos = group_pos.unsqueeze(1).repeat(1, b, 1)
-        com_pos = com_pos.unsqueeze(1)
+        group_pos = group_pos.unsqueeze(1).repeat(1, b, 1)  #[2, 256]->[2, 1, 256]->[2, 2, 256]
+        com_pos = com_pos.unsqueeze(1)  #[1, 256]->[1, 1, 256]
 
         gr_tgt = torch.zeros_like(group_pos)
         com_tgt = torch.zeros_like(com_pos)
